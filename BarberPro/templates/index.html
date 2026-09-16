@@ -1,0 +1,547 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BarberPro | Barbería</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="header">
+
+        <nav class="navbar">
+
+            <div class="logo">
+                <i class="fa-solid fa-scissors"></i>
+                <span>Barber<span>Pro</span></span>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="{% url 'inicio' %}">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#equipo">Nuestro equipo</a></li>
+                <li><a href="#ubicacion">Ubicación</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <a href="#contacto" class="btn-nav">RESERVAR CITA</a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+    <main>
+
+        <section class="hero" id="inicio">
+
+            <div class="hero-content">
+
+                <p class="small-title">BARBERÍA PROFESIONAL</p>
+
+                <h1>
+                    Bienvenidos a
+                    <span>BarberPro</span>
+                </h1>
+
+                <p class="hero-text">
+                    Estilo, precisión y tradición en un solo lugar.
+                    Nuestro equipo está preparado para crear el look
+                    que representa tu personalidad.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#servicios" class="btn-primary">
+                        VER SERVICIOS
+                    </a>
+
+                    <a href="#contacto" class="btn-secondary">
+                        RESERVAR CITA
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SERVICIOS ================= -->
+        <section class="services section" id="servicios">
+
+            <div class="section-title">
+
+                <p>LO QUE HACEMOS</p>
+
+                <h2>Nuestros Servicios</h2>
+
+                <span></span>
+
+                <h3>
+                    Cuidamos cada detalle para que salgas
+                    con el estilo que buscas.
+                </h3>
+
+            </div>
+
+
+            <div class="cards-container">
+
+                <!-- Servicio 1 -->
+                <article class="service-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=700&q=80"
+                        alt="Corte de cabello">
+
+                    <div class="card-content">
+
+                        <h3>Corte Clásico</h3>
+
+                        <p>
+                            Cortes personalizados realizados por
+                            nuestros barberos profesionales.
+                        </p>
+
+                        <div class="card-footer">
+                            <strong>$20.000</strong>
+                            <a href="#contacto">RESERVAR</a>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Servicio 2 -->
+                <article class="service-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=700&q=80"
+                        alt="Corte y barba">
+
+                    <div class="card-content">
+
+                        <h3>Corte + Barba</h3>
+
+                        <p>
+                            Elige un corte moderno acompañado de
+                            un arreglo profesional de barba.
+                        </p>
+
+                        <div class="card-footer">
+                            <strong>$30.000</strong>
+                            <a href="#contacto">RESERVAR</a>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Servicio 3 -->
+                <article class="service-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=700&q=80"
+                        alt="Afeitado clásico">
+
+                    <div class="card-content">
+
+                        <h3>Afeitado Clásico</h3>
+
+                        <p>
+                            Una experiencia tradicional con técnicas
+                            de barbería y productos de alta calidad.
+                        </p>
+
+                        <div class="card-footer">
+                            <strong>$18.000</strong>
+                            <a href="#contacto">RESERVAR</a>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= EQUIPO ================= -->
+        <section class="team section" id="equipo">
+
+            <div class="section-title">
+
+                <p>NUESTROS PROFESIONALES</p>
+
+                <h2>Nuestro Equipo</h2>
+
+                <span></span>
+
+                <h3>
+                    Expertos apasionados por el estilo y
+                    la barbería.
+                </h3>
+
+            </div>
+
+
+            <div class="team-container">
+
+                <!-- Barbero 1 -->
+                <article class="team-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=700&q=80"
+                        alt="Barbero">
+
+                    <div class="team-info">
+
+                        <h3>Mateo Rodríguez</h3>
+
+                        <p class="job">BARBERO SENIOR</p>
+
+                        <p>
+                            Especialista en cortes modernos,
+                            degradados y estilos personalizados.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Barbero 2 -->
+                <article class="team-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=700&q=80"
+                        alt="Barbero">
+
+                    <div class="team-info">
+
+                        <h3>Carlos Martínez</h3>
+
+                        <p class="job">BARBERO PROFESIONAL</p>
+
+                        <p>
+                            Experto en cortes clásicos y cuidado
+                            profesional de la barba.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Barbero 3 -->
+                <article class="team-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1622288432450-277d0fef5ed6?auto=format&fit=crop&w=700&q=80"
+                        alt="Barbero">
+
+                    <div class="team-info">
+
+                        <h3>David López</h3>
+
+                        <p class="job">STYLIST</p>
+
+                        <p>
+                            Especialista en tendencias, diseño
+                            de barba y asesoría de imagen.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FRASE ================= -->
+        <section class="quote">
+
+            <div class="quote-content">
+
+                <i class="fa-solid fa-quote-left"></i>
+
+                <h2>
+                    "Tu estilo habla antes que tú.
+                    Haz que diga algo increíble."
+                </h2>
+
+                <p>BARBERPRO</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= UBICACIÓN ================= -->
+        <section class="location section" id="ubicacion">
+
+            <div class="section-title">
+
+                <p>VISÍTANOS</p>
+
+                <h2>Encuéntranos</h2>
+
+                <span></span>
+
+            </div>
+
+
+            <div class="location-container">
+
+                <div class="map">
+
+                    <iframe
+                        src="https://www.google.com/maps?q=Bogota%20Colombia&output=embed"
+                        loading="lazy">
+                    </iframe>
+
+                </div>
+
+
+                <div class="schedule">
+
+                    <h3>Horarios de atención</h3>
+
+                    <div class="schedule-item">
+                        <span>Lunes - Viernes</span>
+                        <strong>9:00 AM - 8:00 PM</strong>
+                    </div>
+
+                    <div class="schedule-item">
+                        <span>Sábado</span>
+                        <strong>9:00 AM - 6:00 PM</strong>
+                    </div>
+
+                    <div class="schedule-item">
+                        <span>Domingo</span>
+                        <strong>10:00 AM - 4:00 PM</strong>
+                    </div>
+
+                    <div class="address">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        <p>
+                            Calle 00 #00-00<br>
+                            Bogotá, Colombia
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CONTACTO ================= -->
+        <section class="contact section" id="contacto">
+
+            <div class="section-title">
+
+                <p>AGENDA TU CITA</p>
+
+                <h2>Contacto</h2>
+
+                <span></span>
+
+            </div>
+
+
+            <div class="contact-container">
+
+                <div class="contact-info">
+
+                    <h3>¿Listo para tu próximo estilo?</h3>
+
+                    <p>
+                        Escríbenos y reserva tu cita con uno
+                        de nuestros barberos.
+                    </p>
+
+                    <div class="contact-item">
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        <div>
+                            <strong>Teléfono</strong>
+                            <p>+57 300 000 0000</p>
+                        </div>
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        <div>
+                            <strong>Correo</strong>
+                            <p>contacto@barberpro.com</p>
+                        </div>
+
+                    </div>
+
+                    <div class="contact-item">
+
+                        <i class="fa-brands fa-instagram"></i>
+
+                        <div>
+                            <strong>Instagram</strong>
+                            <p>@barberpro</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <form class="contact-form">
+
+                    <input
+                        type="text"
+                        placeholder="Nombre completo"
+                        required>
+
+                    <input
+                        type="email"
+                        placeholder="Correo electrónico"
+                        required>
+
+                    <input
+                        type="tel"
+                        placeholder="Teléfono">
+
+                    <select required>
+
+                        <option value="">
+                            Selecciona un servicio
+                        </option>
+
+                        <option>
+                            Corte Clásico
+                        </option>
+
+                        <option>
+                            Corte + Barba
+                        </option>
+
+                        <option>
+                            Afeitado Clásico
+                        </option>
+
+                    </select>
+
+                    <textarea
+                        rows="5"
+                        placeholder="Escribe tu mensaje">
+                    </textarea>
+
+                    <button type="submit">
+                        ENVIAR SOLICITUD
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <div class="footer-logo">
+
+                <i class="fa-solid fa-scissors"></i>
+
+                <h2>Barber<span>Pro</span></h2>
+
+                <p>
+                    Estilo, tradición y profesionalismo
+                    en cada corte.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>ENLACES</h3>
+
+                <a href="#inicio">Inicio</a>
+                <a href="#servicios">Servicios</a>
+                <a href="#equipo">Equipo</a>
+                <a href="#contacto">Contacto</a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>CONTACTO</h3>
+
+                <p>+57 300 000 0000</p>
+                <p>contacto@barberpro.com</p>
+                <p>Bogotá, Colombia</p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>SÍGUENOS</h3>
+
+                <div class="socials">
+
+                    <a href="#">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            <p>
+                © 2026 BarberPro. Todos los derechos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>
