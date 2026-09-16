@@ -1,28 +1,9 @@
 from django.contrib import admin
-
-# Register your models here.
-from .models import (
-    Barberias,
-    Barberos,
-    Citas,
-    Clientes,
-    Compras,
-    Facturas,
-    Favoritos,
-    Notificaciones,
-    Pagos,
-    Personalizaciones,
-    Productos,
-    Resenas,
-    Servicios,
-    Suscripciones,
-    Usuarios,
-)
+from .models import *
 
 admin.site.site_header = 'BarberPro Admin'
 admin.site.site_title = 'BarberPro Admin'
 admin.site.index_title = 'Panel de administración'
-
 admin.site.register(Barberias)
 admin.site.register(Usuarios)
 admin.site.register(Clientes)
