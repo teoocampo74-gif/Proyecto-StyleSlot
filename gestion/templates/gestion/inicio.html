@@ -1,0 +1,30 @@
+{% extends 'gestion/base.html' %}
+{% block title %}Resumen · StyleSlot{% endblock %}
+{% block page_title %}Resumen del negocio{% endblock %}
+{% block body %}
+<div class="hero-panel">
+    <div>
+        <div class="eyebrow">Panel administrativo</div>
+        <h2>Buenos días, Administrador</h2>
+        <p>Consulta el estado general de la barbería y gestiona tus datos.</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'cita_create' %}">＋ Nueva cita</a>
+</div>
+
+<div class="cards">
+    <div class="card"><div class="card-label">Citas registradas</div><div class="card-value">{{ citas_total|default:'—' }}</div><div class="card-meta">Agenda operativa</div></div>
+    <div class="card"><div class="card-label">Clientes</div><div class="card-value">{{ clientes_total|default:'—' }}</div><div class="card-meta">Base de clientes</div></div>
+    <div class="card"><div class="card-label">Barberos</div><div class="card-value">{{ barberos_total|default:'—' }}</div><div class="card-meta">Equipo activo</div></div>
+    <div class="card"><div class="card-label">Productos</div><div class="card-value">{{ productos_total|default:'—' }}</div><div class="card-meta">Inventario disponible</div></div>
+</div>
+
+<div class="table-head" style="background:white;border:1px solid #eee5e6;border-radius:12px 12px 0 0;margin-top:24px">
+    <h2>Módulos del sistema</h2>
+    <span style="font-size:11px;color:#81777a">Acceso rápido</span>
+</div>
+<div class="module-grid" style="border:1px solid #eee5e6;border-top:0;border-radius:0 0 12px 12px;background:white;padding:14px">
+    {% for texto, url in enlaces %}
+    <a class="module-card" href="{% url url %}"><span class="module-icon">{% cycle '↗' '◷' '♙' '✂' '◇' '▤' '◉' '□' '⌑' %}</span><span><strong>{{ texto }}</strong><small>Gestionar registros</small></span></a>
+    {% endfor %}
+</div>
+{% endblock %}

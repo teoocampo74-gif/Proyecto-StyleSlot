@@ -1,0 +1,39 @@
+{% extends 'gestion/base.html' %}
+{% block title %}{{ titulo }} · StyleSlot{% endblock %}
+{% block page_title %}{{ titulo }}{% endblock %}
+{% block body %}
+<div class="hero-panel">
+    <div>
+        <div class="eyebrow">Gestión de datos</div>
+        <h2>{{ titulo }}</h2>
+        <p>{% if filas %}{{ filas|length }} registro(s) en esta página{% else %}No hay registros disponibles{% endif %}</p>
+    </div>
+    {% if not solo_lectura %}<a class="btn btn-primary" href="{% url prefijo|add:'_create' %}">＋ Agregar</a>{% endif %}
+</div>
+
+<div class="panel">
+    <div class="table-head"><h2>Listado general</h2>{% if not solo_lectura %}<a class="top-link" href="{% url prefijo|add:'_create' %}">Nuevo registro</a>{% endif %}</div>
+    {% if filas %}
+    <div class="table-wrap">
+        <table>
+            <thead><tr>{% for columna in columnas %}<th>{{ columna }}</th>{% endfor %}{% if not solo_lectura %}<th>Acciones</th>{% endif %}</tr></thead>
+            <tbody>
+            {% for fila in filas %}
+                <tr>
+                    {% for celda in fila.celdas %}<td title="{{ celda }}">{{ celda }}</td>{% endfor %}
+                    {% if not solo_lectura %}<td><div class="actions"><a class="action-link" href="{% url prefijo|add:'_update' fila.pk %}">Editar</a><a class="action-link delete" href="{% url prefijo|add:'_delete' fila.pk %}">Eliminar</a></div></td>{% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if is_paginated %}
+    <nav class="pagination">
+        {% if page_obj.has_previous %}<a class="page-link" href="?page={{ page_obj.previous_page_number }}">‹</a>{% endif %}
+        <span class="page-link" style="width:auto;padding:0 10px">{{ page_obj.number }} / {{ paginator.num_pages }}</span>
+        {% if page_obj.has_next %}<a class="page-link" href="?page={{ page_obj.next_page_number }}">›</a>{% endif %}
+    </nav>
+    {% endif %}
+    {% else %}<div class="empty">Aún no existen registros en este módulo.</div>{% endif %}
+</div>
+{% endblock %}

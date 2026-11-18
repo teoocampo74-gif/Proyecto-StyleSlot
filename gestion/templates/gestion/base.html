@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}StyleSlot{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+</head>
+<body>
+<div class="shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" href="{% url 'inicio' %}">
+            <span class="brand-mark">S</span>
+            <span><strong>StyleSlot</strong><small>Sistema de gestión</small></span>
+        </a>
+        <div class="nav-label">Gestión</div>
+        <nav class="nav">
+            <a href="{% url 'inicio' %}"{% if request.resolver_match.url_name == 'inicio' %} class="active"{% endif %}><span>⌂</span><span>Resumen</span></a>
+            <a href="{% url 'cita_list' %}"{% if 'cita' in request.resolver_match.url_name %} class="active"{% endif %}><span>◷</span><span>Citas</span></a>
+            <a href="{% url 'cliente_list' %}"{% if 'cliente' in request.resolver_match.url_name %} class="active"{% endif %}><span>♙</span><span>Clientes</span></a>
+            <a href="{% url 'barbero_list' %}"{% if 'barbero' in request.resolver_match.url_name %} class="active"{% endif %}><span>✂</span><span>Barberos</span></a>
+            <a href="{% url 'servicio_list' %}"{% if 'servicio' in request.resolver_match.url_name %} class="active"{% endif %}><span>◇</span><span>Servicios</span></a>
+        </nav>
+        <div class="nav-label">Comercial</div>
+        <nav class="nav">
+            <a href="{% url 'factura_list' %}"{% if 'factura' in request.resolver_match.url_name %} class="active"{% endif %}><span>▤</span><span>Facturas</span></a>
+            <a href="{% url 'pago_list' %}"{% if 'pago' in request.resolver_match.url_name %} class="active"{% endif %}><span>◉</span><span>Pagos</span></a>
+            <a href="{% url 'producto_list' %}"{% if 'producto' in request.resolver_match.url_name %} class="active"{% endif %}><span>□</span><span>Productos</span></a>
+            <a href="{% url 'barberia_list' %}"{% if 'barberia' in request.resolver_match.url_name %} class="active"{% endif %}><span>⌑</span><span>Barberías</span></a>
+        </nav>
+        <div class="sidebar-foot">
+            <div class="profile"><span class="avatar">IG</span><span><strong>Ingeniero Gómez</strong><small>Administrador</small></span></div>
+        </div>
+    </aside>
+
+    <div class="content">
+        <header class="topbar">
+            <div style="display:flex;align-items:center;gap:12px">
+                <button class="mobile-menu" type="button" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Abrir menú">☰</button>
+                <h1>{% block page_title %}Panel administrativo{% endblock %}</h1>
+            </div>
+            <div class="top-actions">
+                <a class="top-link" href="{% url 'barberpro' %}" target="_blank">Ver sitio público</a>
+                <a class="top-link" href="{% url 'admin:index' %}">Django Admin</a>
+            </div>
+        </header>
+        <main class="main">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}<div class="message {% if message.tags == 'error' %}error{% endif %}">{{ message }}</div>{% endfor %}
+            </div>
+            {% endif %}
+            {% block body %}{% endblock %}
+        </main>
+        <footer class="footer-main">StyleSlot · Colombia · 2026</footer>
+    </div>
+</div>
+</body>
+</html>

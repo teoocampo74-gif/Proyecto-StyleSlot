@@ -1,0 +1,28 @@
+{% extends 'gestion/base.html' %}
+{% block title %}{% if object %}Editar{% else %}Agregar{% endif %} {{ titulo }} · StyleSlot{% endblock %}
+{% block page_title %}{% if object %}Editar{% else %}Nuevo{% endif %} {{ titulo }}{% endblock %}
+{% block body %}
+<div class="hero-panel">
+    <div><div class="eyebrow">Módulo {{ titulo }}</div><h2>{% if object %}Editar registro{% else %}Crear registro{% endif %}</h2><p>Completa la información y guarda los cambios.</p></div>
+</div>
+<div class="form-panel">
+    <div class="form-header"><h2>{% if object %}Información registrada{% else %}Nuevo {{ titulo }}{% endif %}</h2></div>
+    <form method="post" class="form-body">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-grid">
+            {% for campo in form %}
+            <div class="field">
+                <label for="{{ campo.id_for_label }}">{{ campo.label }}{% if campo.field.required %} *{% endif %}</label>
+                {{ campo }}
+                {% for error in campo.errors %}<div class="errorlist">{{ error }}</div>{% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar registro</button>
+            <a class="btn btn-secondary" href="{% url prefijo|add:'_list' %}">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

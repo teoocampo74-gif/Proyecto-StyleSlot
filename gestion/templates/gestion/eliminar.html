@@ -1,0 +1,17 @@
+{% extends 'gestion/base.html' %}
+{% block title %}Eliminar registro · StyleSlot{% endblock %}
+{% block page_title %}Eliminar registro{% endblock %}
+{% block body %}
+<div class="hero-panel">
+    <div><div class="eyebrow">Confirmación</div><h2>Eliminar registro</h2><p>Esta acción no se puede deshacer.</p></div>
+</div>
+<div class="delete-box">
+    <h2>¿Seguro que deseas continuar?</h2>
+    <p>Se eliminará el siguiente registro: <strong>{{ object }}</strong></p>
+    <form method="post" class="form-actions">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a class="btn btn-secondary" href="{% url prefijo|add:'_list' %}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
