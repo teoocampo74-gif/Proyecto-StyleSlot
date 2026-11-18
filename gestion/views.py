@@ -1,6 +1,8 @@
 from datetime import date, datetime
 
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import get_user_model
 from django.db.models import ProtectedError
 from django.forms import Select
 from django.shortcuts import redirect, render
@@ -127,9 +129,41 @@ def crear_vistas(modelo):
     }
 
 
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('/barberpro/#login')
+
+
 def barberpro(request):
     barberos = Barbero.objects.select_related('usuario').all()
     servicios = Servicio.objects.all()
+
+    if request.method == 'POST' and request.POST.get('accion') == 'login':
+        identificador = request.POST.get('usuario', '').strip()
+        password = request.POST.get('password', '')
+
+        usuario = authenticate(request, username=identificador, password=password)
+        if usuario is None:
+            usuario_auth = get_user_model().objects.filter(email__iexact=identificador).first()
+            if usuario_auth:
+                usuario = authenticate(request, username=usuario_auth.username, password=password)
+
+        if usuario is not None:
+            login(request, usuario)
+            return render(request, 'gestion/barberpro.html', {
+                'barberos': barberos,
+                'servicios': servicios,
+                'min_fecha': date.today().isoformat(),
+                'login_exitoso': True,
+                'sesion_activa': True,
+            })
+
+        return render(request, 'gestion/barberpro.html', {
+            'barberos': barberos,
+            'servicios': servicios,
+            'min_fecha': date.today().isoformat(),
+            'error_login': 'Usuario o contraseña incorrectos.',
+        }, status=401)
 
     if request.method == 'POST':
         nombre_completo = request.POST.get('nombre', '').strip()
@@ -215,4 +249,5 @@ def barberpro(request):
         'barberos': barberos,
         'servicios': servicios,
         'min_fecha': date.today().isoformat(),
+        'sesion_activa': request.user.is_authenticated,
     })

@@ -153,10 +153,22 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
   <div class="caja">
     <div class="avatar" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="26" r="14" fill="#2b1a30"/><path d="M12 62c2-16 14-20 20-20s18 4 20 20z" fill="#2b1a30"/><path d="M22 30c0 12 20 12 20 0-4 6-16 6-20 0z" fill="#fff"/></svg></div>
     <h2>Iniciar sesión</h2>
-    <label for="lc">Correo electrónico</label><input id="lc" type="email" placeholder="correo@ejemplo.com">
-    <label for="lp">Contraseña</label><input id="lp" type="password" placeholder="Tu contraseña">
-    <button type="button" class="btn" data-ir="dashboard">Entrar</button>
-    <p class="pie">¿No tienes cuenta? <a href="#registro" data-ir="registro">Regístrate aquí</a></p>
+    {% if error_login %}<p style="color:#ff9f9f;margin:.8rem 0"><b>{{ error_login }}</b></p>{% endif %}
+    {% if login_exitoso %}<p style="color:#bfe3c4;margin:.8rem 0"><b>Sesión iniciada correctamente.</b></p>{% endif %}
+    {% if sesion_activa %}
+      <p style="margin:.8rem 0">Bienvenido, {{ request.user.get_full_name|default:request.user.username }}.</p>
+      <a class="btn" href="#dashboard" data-ir="dashboard">Abrir panel</a>
+      <a class="btn borde" href="{% url 'cerrar_sesion' %}" style="margin-top:.6rem">Cerrar sesión</a>
+    {% else %}
+    <form method="post" action="{% url 'barberpro' %}">
+      {% csrf_token %}
+      <input type="hidden" name="accion" value="login">
+      <label for="lc">Usuario o correo electrónico</label><input id="lc" name="usuario" type="text" placeholder="usuario o correo" required>
+      <label for="lp">Contraseña</label><input id="lp" name="password" type="password" placeholder="Tu contraseña" required>
+      <button type="submit" class="btn">Entrar</button>
+    </form>
+    {% endif %}
+    <p class="pie">¿No tienes cuenta? <a href="#registro" data-ir="registro">Reserva una cita</a></p>
   </div>
 </main>
 
@@ -254,6 +266,10 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
 
   function mostrar(nombre) {
     var existe = vistas.some(function (v) { return v[0] === nombre; });
+    var sesionActiva = {% if sesion_activa %}true{% else %}false{% endif %};
+    if (!sesionActiva && ['dashboard', 'agenda', 'barberos'].indexOf(nombre) !== -1) {
+      nombre = 'login';
+    }
     if (!existe) { nombre = 'inicio'; }
     vistas.forEach(function (v) {
       var e = porId(v[0]);
@@ -288,7 +304,7 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
     var activo = s.getAttribute('data-activo');
     s.innerHTML = '<h3>Panel Admin</h3>' + enlaces.map(function (l) {
       return '<a href="#' + l[0] + '" data-ir="' + l[0] + '"' + (l[0] === activo ? ' class="act"' : '') + '>' + l[1] + '</a>';
-    }).join('') + '<button type="button" class="salir" data-ir="login">Salir</button>';
+    }).join('') + '<a class="salir" href="{% url 'cerrar_sesion' %}">Salir</a>';
   });
 
   document.addEventListener('click', function (e) {
@@ -301,7 +317,12 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
   });
 
   window.addEventListener('hashchange', function () { mostrar(location.hash.slice(1)); });
+  {% if login_exitoso %}
+  history.replaceState(null, '', '#dashboard');
+  mostrar('dashboard');
+  {% else %}
   mostrar(location.hash.slice(1));
+  {% endif %}
 })();
 </script>
 </body>

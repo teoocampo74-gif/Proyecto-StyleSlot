@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns = [
     path('', views.inicio, name='inicio'),
-     path('barberpro/', views.barberpro, name='barberpro'),
+    path('barberpro/', views.barberpro, name='barberpro'),
+    path('cerrar-sesion/', views.cerrar_sesion, name='cerrar_sesion'),
 ]
 
 for modelo in views.MODELOS:
