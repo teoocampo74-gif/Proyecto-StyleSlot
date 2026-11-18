@@ -1,0 +1,10 @@
+{% extends 'gestion/base.html' %}
+{% block body %}
+    <h1>Eliminar registro</h1>
+    <p>¿Seguro que deseas eliminar <strong>{{ object }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a class="btn btn-secondary" href="{% url prefijo|add:'_list' %}">Cancelar</a>
+    </form>
+{% endblock %}

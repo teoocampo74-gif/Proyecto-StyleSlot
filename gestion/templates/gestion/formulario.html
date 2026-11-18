@@ -1,0 +1,17 @@
+{% extends 'gestion/base.html' %}
+{% block body %}
+    <h1>{% if object %}Editar{% else %}Agregar{% endif %}: {{ titulo }}</h1>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for campo in form %}
+            <div class="mb-3">
+                <label class="form-label" for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+                {{ campo }}
+                {% for error in campo.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a class="btn btn-secondary" href="{% url prefijo|add:'_list' %}">Volver</a>
+    </form>
+{% endblock %}

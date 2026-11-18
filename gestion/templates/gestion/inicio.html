@@ -1,0 +1,11 @@
+{% extends 'gestion/base.html' %}
+{% block body %}
+    <h1>Panel de gestión</h1>
+    <div class="row g-3 mt-2">
+        {% for texto, url in enlaces %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <a class="btn btn-outline-dark w-100" href="{% url url %}">{{ texto }}</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

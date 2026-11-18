@@ -1,0 +1,50 @@
+{% extends 'gestion/base.html' %}
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>{{ titulo }}</h1>
+        {% if not solo_lectura %}
+            <a class="btn btn-success" href="{% url prefijo|add:'_create' %}">Agregar</a>
+        {% endif %}
+    </div>
+    {% if filas %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm align-middle">
+                <thead>
+                    <tr>
+                        {% for columna in columnas %}<th>{{ columna }}</th>{% endfor %}
+                        {% if not solo_lectura %}<th>Acción</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fila in filas %}
+                        <tr>
+                            {% for celda in fila.celdas %}<td>{{ celda }}</td>{% endfor %}
+                            {% if not solo_lectura %}
+                                <td class="text-nowrap">
+                                    <a class="btn btn-info btn-sm" href="{% url prefijo|add:'_update' fila.pk %}">Editar</a>
+                                    <a class="btn btn-secondary btn-sm" href="{% url prefijo|add:'_delete' fila.pk %}">Eliminar</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if is_paginated %}
+            <nav>
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% endif %}
+                    <li class="page-item disabled"><span class="page-link">{{ page_obj.number }} / {{ paginator.num_pages }}</span></li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <p>No hay registros aún...</p>
+    {% endif %}
+    <a class="btn btn-outline-secondary" href="{% url 'inicio' %}">Volver al panel</a>
+{% endblock %}
