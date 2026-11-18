@@ -131,7 +131,32 @@ def crear_vistas(modelo):
 
 def cerrar_sesion(request):
     logout(request)
-    return redirect('/barberpro/#login')
+    return redirect('/barberpro/login/')
+
+
+def login_publico(request):
+    if request.user.is_authenticated:
+        return redirect('/barberpro/#dashboard')
+
+    if request.method == 'POST':
+        identificador = request.POST.get('usuario', '').strip()
+        password = request.POST.get('password', '')
+
+        usuario = authenticate(request, username=identificador, password=password)
+        if usuario is None:
+            usuario_auth = get_user_model().objects.filter(email__iexact=identificador).first()
+            if usuario_auth:
+                usuario = authenticate(request, username=usuario_auth.username, password=password)
+
+        if usuario is not None:
+            login(request, usuario)
+            return redirect('/barberpro/#dashboard')
+
+        return render(request, 'gestion/login.html', {
+            'error_login': 'Usuario o contraseña incorrectos.',
+        }, status=401)
+
+    return render(request, 'gestion/login.html')
 
 
 def barberpro(request):

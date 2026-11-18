@@ -105,7 +105,7 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
       <li><a href="#inicio" data-ir="inicio">Inicio</a></li>
       <li><a href="#inicio" data-ir="inicio">Servicios</a></li>
       <li><a href="#inicio" data-ir="inicio">Equipo</a></li>
-      <li><a class="btn" href="#login" data-ir="login">Iniciar sesión</a></li>
+      <li><a class="btn" href="{% url 'login_publico' %}">Iniciar sesión</a></li>
     </ul>
   </nav>
   <header class="hero">
@@ -113,7 +113,7 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
     <p>Afeitado, recortes, diseño de barba y más. Reserva tu cita con los mejores barberos de la ciudad.</p>
     <div class="acciones">
       <a class="btn" href="#registro" data-ir="registro">Reservar cita</a>
-      <a class="btn borde" href="#login" data-ir="login">Ver más</a>
+      <a class="btn borde" href="{% url 'login_publico' %}">Ver más</a>
     </div>
   </header>
   <section class="servicios">
@@ -256,7 +256,7 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
   ];
   var barberos = [
     {% for barbero in barberos %}
-    [{{ barbero.nombre|escapejs }}, {{ barbero.especialidad|escapejs }}, '{{ barbero.comision }} comisión', 'Barbero registrado en StyleSlot']{% if not forloop.last %},{% endif %}
+    ["{{ barbero.nombre|escapejs }}", "{{ barbero.especialidad|escapejs }}", "{{ barbero.comision }} comisión", "Barbero registrado en StyleSlot"]{% if not forloop.last %},{% endif %}
     {% endfor %}
   ];
   var clientes = ['Carlos Moreno', 'Juan Pérez', 'Luis Gómez', 'Andrés Ruiz', 'Felipe Vargas', 'Camilo Díaz', 'Sergio Mora', 'Tomás Rojas', 'Mateo León', 'Iván Soto', 'Jorge Peña', 'Nicolás Cruz'];
