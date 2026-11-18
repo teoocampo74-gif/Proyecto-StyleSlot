@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 from django.contrib import messages
 from django.db.models import ProtectedError
 from django.forms import Select
@@ -8,7 +10,7 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from .models import (
     Barberia, Barbero, Cita, Cliente, Compra, DetalleCompra, Factura,
     Favorito, Historial, Notificacion, Pago, Personalizacion, Producto,
-    Resena, Servicio, Sucursal, Suscripcion, Usuario,
+    Resena, Servicio, Suscripcion, Usuario, Sucursal,
 )
 
 MODELOS = [
@@ -123,5 +125,94 @@ def crear_vistas(modelo):
         'update': type(f'{modelo.__name__}Editar', (FormularioBase, UpdateView), {'model': modelo}),
         'delete': type(f'{modelo.__name__}Eliminar', (EliminarBase,), {'model': modelo}),
     }
+
+
 def barberpro(request):
-    return render(request, 'gestion/barberpro.html')
+    barberos = Barbero.objects.select_related('usuario').all()
+    servicios = Servicio.objects.all()
+
+    if request.method == 'POST':
+        nombre_completo = request.POST.get('nombre', '').strip()
+        email = request.POST.get('email', '').strip()
+        telefono = request.POST.get('telefono', '').strip()
+        barbero_id = request.POST.get('barbero')
+        servicio_id = request.POST.get('servicio')
+        fecha_texto = request.POST.get('fecha')
+        hora_texto = request.POST.get('hora')
+
+        try:
+            fecha_cita = date.fromisoformat(fecha_texto)
+            hora_cita = datetime.strptime(hora_texto, '%H:%M').time()
+            barbero = Barbero.objects.get(pk=barbero_id)
+            servicio = Servicio.objects.get(pk=servicio_id)
+        except (TypeError, ValueError, Barbero.DoesNotExist, Servicio.DoesNotExist):
+            return render(request, 'gestion/barberpro.html', {
+                'barberos': barberos,
+                'servicios': servicios,
+                'error_reserva': 'Revisa los datos de la reserva.',
+                'min_fecha': date.today().isoformat(),
+            }, status=400)
+
+        if fecha_cita < date.today():
+            return render(request, 'gestion/barberpro.html', {
+                'barberos': barberos,
+                'servicios': servicios,
+                'error_reserva': 'La fecha no puede estar en el pasado.',
+                'min_fecha': date.today().isoformat(),
+            }, status=400)
+
+        if not nombre_completo or not email:
+            return render(request, 'gestion/barberpro.html', {
+                'barberos': barberos,
+                'servicios': servicios,
+                'error_reserva': 'El nombre y el correo son obligatorios.',
+                'min_fecha': date.today().isoformat(),
+            }, status=400)
+
+        choque = Cita.objects.filter(
+            barbero=barbero,
+            fecha=fecha_cita,
+            hora=hora_cita,
+        ).exclude(estado='Finalizada').exists()
+        if choque:
+            return render(request, 'gestion/barberpro.html', {
+                'barberos': barberos,
+                'servicios': servicios,
+                'error_reserva': 'Ese horario ya está ocupado. Selecciona otro.',
+                'min_fecha': date.today().isoformat(),
+            }, status=409)
+
+        partes = nombre_completo.split(maxsplit=1)
+        nombre_cliente = partes[0]
+        apellido_cliente = partes[1] if len(partes) > 1 else ''
+        cliente, creado = Cliente.objects.get_or_create(
+            email=email,
+            defaults={
+                'nombre': nombre_cliente,
+                'apellido': apellido_cliente,
+                'telefono': telefono,
+                'direccion': '',
+            },
+        )
+
+        Cita.objects.create(
+            fecha=fecha_cita,
+            hora=hora_cita,
+            estado='Pendiente',
+            cliente=cliente,
+            barbero=barbero,
+            servicio=servicio,
+        )
+
+        return render(request, 'gestion/barberpro.html', {
+            'barberos': barberos,
+            'servicios': servicios,
+            'exito_reserva': 'Tu cita quedó registrada como pendiente.',
+            'min_fecha': date.today().isoformat(),
+        })
+
+    return render(request, 'gestion/barberpro.html', {
+        'barberos': barberos,
+        'servicios': servicios,
+        'min_fecha': date.today().isoformat(),
+    })

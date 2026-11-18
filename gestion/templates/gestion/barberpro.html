@@ -162,12 +162,28 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
 
 <main id="registro" class="centrado" hidden>
   <div class="caja">
-    <h2>Crear cuenta</h2>
-    <label for="rn">Nombre completo</label><input id="rn" type="text">
-    <label for="rc">Correo electrónico</label><input id="rc" type="email">
-    <label for="rt">Teléfono</label><input id="rt" type="tel">
-    <label for="rp">Contraseña</label><input id="rp" type="password">
-    <button type="button" class="btn" data-ir="login">Registrarme</button>
+    <h2>Reservar cita</h2>
+    {% if exito_reserva %}<p style="color:#bfe3c4;margin:.8rem 0"><b>{{ exito_reserva }}</b></p>{% endif %}
+    {% if error_reserva %}<p style="color:#ff9f9f;margin:.8rem 0"><b>{{ error_reserva }}</b></p>{% endif %}
+    <form method="post" action="{% url 'barberpro' %}">
+      {% csrf_token %}
+      <label for="rn">Nombre completo</label><input id="rn" name="nombre" type="text" required>
+      <label for="rc">Correo electrónico</label><input id="rc" name="email" type="email" required>
+      <label for="rt">Teléfono</label><input id="rt" name="telefono" type="tel">
+      <label for="rb">Barbero</label>
+      <select id="rb" name="barbero" required style="width:100%;padding:.55rem .7rem;border:0;border-radius:4px;background:#f3dada;color:#222">
+        <option value="">Selecciona un barbero</option>
+        {% for barbero in barberos %}<option value="{{ barbero.pk }}">{{ barbero.nombre }}</option>{% endfor %}
+      </select>
+      <label for="rs">Servicio</label>
+      <select id="rs" name="servicio" required style="width:100%;padding:.55rem .7rem;border:0;border-radius:4px;background:#f3dada;color:#222">
+        <option value="">Selecciona un servicio</option>
+        {% for servicio in servicios %}<option value="{{ servicio.pk }}">{{ servicio.nombre }}{% if servicio.precio %} · ${{ servicio.precio }}{% endif %}</option>{% endfor %}
+      </select>
+      <label for="rf">Fecha</label><input id="rf" name="fecha" type="date" min="{{ min_fecha }}" required>
+      <label for="rh">Hora</label><input id="rh" name="hora" type="time" required>
+      <button type="submit" class="btn">Confirmar reserva</button>
+    </form>
     <p class="pie">¿Ya tienes cuenta? <a href="#login" data-ir="login">Inicia sesión</a></p>
   </div>
 </main>
@@ -227,10 +243,9 @@ td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
     ['dashboard', 'Dashboard'], ['agenda', 'Agenda'], ['barberos', 'Barberos']
   ];
   var barberos = [
-    ['Miguel Rodríguez', 'Barbero Senior', '10 años de experiencia', 'Experto en estilo tradicional'],
-    ['Carlos Martínez', 'Maestro Barbero', '8 años de experiencia', 'Especialista en cortes clásicos'],
-    ['David Torres', 'Barbero', '5 años de experiencia', 'Especialista en diseño de barba'],
-    ['Mario Salazar', 'Barbero junior', '2 años de experiencia', 'Cortes modernos']
+    {% for barbero in barberos %}
+    [{{ barbero.nombre|escapejs }}, {{ barbero.especialidad|escapejs }}, '{{ barbero.comision }} comisión', 'Barbero registrado en StyleSlot']{% if not forloop.last %},{% endif %}
+    {% endfor %}
   ];
   var clientes = ['Carlos Moreno', 'Juan Pérez', 'Luis Gómez', 'Andrés Ruiz', 'Felipe Vargas', 'Camilo Díaz', 'Sergio Mora', 'Tomás Rojas', 'Mateo León', 'Iván Soto', 'Jorge Peña', 'Nicolás Cruz'];
   var servicios = ['Recorte de barba', 'Corte', 'Corte y barba'];
