@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#24151f">
+    <title>Crear cuenta · StyleSlot</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            padding: 24px 16px;
+            background: radial-gradient(ellipse at 18% 15%, rgba(169, 47, 73, .13), transparent 35%), #f6f1f1;
+            color: #24151f;
+            font-family: "DM Sans", "Segoe UI", sans-serif;
+        }
+
+        .register-card {
+            width: min(100%, 590px);
+            padding: 38px;
+            border: 1px solid #eee5e6;
+            border-radius: 18px;
+            background: #fffafa;
+            box-shadow: 0 24px 70px rgba(43, 27, 33, .12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            color: #24151f;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #321d2b;
+            color: white;
+            font-family: Georgia, serif;
+            font-size: 21px;
+        }
+
+        .brand-name { font-family: Georgia, serif; font-size: 19px; }
+        .brand-caption { display: block; margin-top: 2px; color: #81777a; font-size: 11px; }
+        .eyebrow { color: #a92f49; font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+        h1 { margin: 8px 0; font-family: Georgia, serif; font-size: 30px; }
+        .intro { margin: 0 0 24px; color: #81777a; font-size: 13px; line-height: 1.6; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .field { min-width: 0; }
+        .field label { display: block; margin-bottom: 7px; color: #55484b; font-size: 11px; font-weight: 700; }
+
+        .field input {
+            width: 100%;
+            min-height: 43px;
+            padding: 9px 11px;
+            border: 1px solid #ded3d5;
+            border-radius: 8px;
+            outline: none;
+            background: #fffdfd;
+            color: #24151f;
+            font: inherit;
+            font-size: 13px;
+        }
+
+        .field input:focus { border-color: #a92f49; box-shadow: 0 0 0 3px rgba(169, 47, 73, .1); }
+        .field-error, .errorlist { margin: 6px 0 0; color: #a1263b; font-size: 11px; }
+        .help-text { margin-top: 7px; color: #81777a; font-size: 10px; line-height: 1.5; }
+        .help-text ul { margin: 4px 0 0; padding-left: 17px; }
+
+        .form-error {
+            margin: 0 0 18px;
+            padding: 11px 13px;
+            border: 1px solid #f1c8ce;
+            border-radius: 8px;
+            background: #fff0f2;
+            color: #8c2636;
+            font-size: 12px;
+        }
+
+        .privacy-note { margin: 19px 0 15px; color: #81777a; font-size: 11px; line-height: 1.5; }
+
+        .submit-button {
+            width: 100%;
+            min-height: 46px;
+            border: 0;
+            border-radius: 8px;
+            background: #7d1f34;
+            color: white;
+            cursor: pointer;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .submit-button:hover { background: #8f2940; }
+        .login-link { margin: 18px 0 0; color: #81777a; font-size: 12px; text-align: center; }
+        .login-link a { color: #7d1f34; font-weight: 700; text-decoration: none; }
+
+        @media (max-width: 520px) {
+            .register-card { padding: 28px 20px; }
+            .form-grid { grid-template-columns: 1fr; gap: 13px; }
+            h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="register-card">
+        <a class="brand" href="{% url 'inicio' %}">
+            <span class="brand-mark" aria-hidden="true">S</span>
+            <span><span class="brand-name">StyleSlot</span><span class="brand-caption">Sistema de gestión</span></span>
+        </a>
+        <span class="eyebrow">Únete a StyleSlot</span>
+        <h1>Crear cuenta</h1>
+        <p class="intro">Completa tus datos para activar tu cuenta y comenzar.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="form-error" role="alert">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="form-grid">
+                {% for field in form %}
+                    <div class="field">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}<div class="field-error" role="alert">{{ field.errors }}</div>{% endif %}
+                        {% if field.help_text %}<div class="help-text">{{ field.help_text|safe }}</div>{% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <p class="privacy-note">Al crear tu cuenta, se enviarán tu nombre, usuario, correo y teléfono al correo de administración. Tu contraseña no se comparte.</p>
+            <button class="submit-button" type="submit">Crear cuenta</button>
+        </form>
+
+        <p class="login-link">¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión</a></p>
+    </main>
+</body>
+</html>

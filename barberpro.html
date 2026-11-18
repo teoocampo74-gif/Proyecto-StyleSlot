@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BarberPro</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--negro:#0b0808;--vino:#2a0a0c;--rojo:#e11d2e;--azul:#3b4a8c;--lateral:#2b1428;--rosa:#f3dada;--rosa2:#dcb8b8;--texto:#f4eeee;--serif:Georgia,"Times New Roman",serif;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--negro);color:var(--texto);line-height:1.5}
+[hidden]{display:none!important}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+:focus-visible{outline:2px solid #fff;outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.2}
+.btn{display:inline-block;padding:.6rem 1.2rem;border-radius:6px;background:var(--azul);font-size:.9rem}
+.btn.rojo{background:var(--rojo)}
+.btn.borde{background:transparent;border:1px solid #fff}
+.foto{background:linear-gradient(160deg,#5a3b2a,#1a0f0c 70%);position:relative;overflow:hidden}
+.foto::after{content:"";position:absolute;left:50%;top:38%;width:38%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.14);transform:translate(-50%,-50%)}
+.foto::before{content:"";position:absolute;left:50%;bottom:-12%;width:70%;height:48%;border-radius:50% 50% 0 0;background:rgba(255,255,255,.1);transform:translateX(-50%)}
+#inicio nav{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:1rem 4vw}
+#inicio nav .logo{color:var(--rojo);font-family:var(--serif);font-weight:700}
+#inicio nav ul{display:flex;gap:1.5rem;list-style:none;align-items:center;font-size:.85rem}
+.hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:6rem 6vw 3rem;background:linear-gradient(90deg,rgba(0,0,0,.92) 25%,rgba(0,0,0,.35)),linear-gradient(135deg,#3a2a22,#0b0808 70%)}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);max-width:14ch}
+.hero p{max-width:42ch;margin:1rem 0 1.5rem;font-size:.9rem;color:#d8cfcf}
+.hero .acciones{display:flex;gap:.8rem;flex-wrap:wrap}
+.servicios{background:linear-gradient(90deg,#1a0406,#3a0a0e 50%,#1a0406);padding:3rem 6vw;text-align:center}
+.servicios>p{max-width:60ch;margin:1rem auto 2rem;font-size:.85rem;color:#cbbcbc}
+.tarjetas{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.tarjeta{border-radius:10px;min-height:260px;display:flex;align-items:flex-end;justify-content:space-between;padding:.8rem;position:relative}
+.tarjeta span{position:relative;z-index:2;font-size:.8rem}
+.tarjeta .btn{position:relative;z-index:2;padding:.3rem .7rem;font-size:.7rem}
+.vermas{display:block;text-align:right;margin-top:1rem;font-size:.8rem;text-decoration:underline}
+.equipo{padding:3rem 6vw;border-top:1px solid #333;border-bottom:1px solid #333;display:flex;gap:2rem;align-items:center}
+.equipo>h2{writing-mode:vertical-rl;transform:rotate(180deg);font-size:1.2rem;letter-spacing:.1em}
+.miembros{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1.2rem;flex:1}
+.miembro .foto{height:150px;border-radius:10px;margin-bottom:.6rem}
+.miembro h3{font-size:.85rem}
+.miembro p{font-size:.72rem;color:#bbb}
+.horario{background:#000;padding:3rem 6vw;display:flex;gap:3rem;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center}
+.mapa{width:260px;height:150px;border-radius:4px;background:repeating-linear-gradient(45deg,#d9d9d9 0 12px,#cfcfcf 12px 24px)}
+.horario h2{font-weight:400}
+.horario p{font-size:.85rem;color:#ccc;margin-top:.4rem}
+.contacto{background:#171414;padding:2.5rem 6vw}
+.contacto h2{text-align:center;font-size:1rem;margin-bottom:1.5rem}
+.columnas{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.5rem;font-size:.75rem;color:#bbb}
+.columnas b{display:block;color:#fff;margin-bottom:.4rem}
+
+.centrado{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.7)),linear-gradient(120deg,#6b2a22,#1a1010 55%,#3a4a7a)}
+.caja{width:100%;max-width:340px;background:rgba(20,16,16,.75);border-radius:14px;padding:1.8rem;text-align:center}
+.caja h2{font-size:1.2rem;margin-bottom:1rem}
+.caja label{display:block;text-align:left;font-size:.7rem;margin:.7rem 0 .2rem;color:#ddd}
+.caja input{width:100%;padding:.55rem .7rem;border:0;border-radius:4px;background:var(--rosa);color:#222;font-size:.85rem}
+.caja .btn{width:100%;margin-top:1.2rem}
+.caja .pie{font-size:.75rem;margin-top:1rem;color:#ccc}
+.caja .pie a{color:var(--rojo);text-decoration:underline}
+.avatar{width:84px;height:84px;margin:0 auto 1rem;border-radius:50%;background:#fff;display:grid;place-items:center}
+.avatar svg{width:56px;height:56px}
+
+.admin{display:grid;grid-template-columns:190px 1fr;min-height:100vh;background:#f6e9e9;color:#241418}
+.side{background:var(--lateral);color:#fff;padding:1.2rem .9rem;border-radius:0 18px 18px 0;display:flex;flex-direction:column;gap:.4rem;font-size:.8rem}
+.side h3{font-size:.8rem;margin-bottom:1rem;color:#e9d9e6}
+.side a{padding:.5rem .6rem;border-radius:6px;opacity:.8}
+.side a.act{background:rgba(255,255,255,.12);opacity:1}
+.side .salir{margin-top:auto;background:#3d2540;padding:.4rem .6rem;border-radius:6px;text-align:left;font-size:.75rem}
+.panel{padding:1.5rem 2rem;overflow-x:auto}
+.panel h2{font-size:1rem;margin-bottom:1rem}
+.panel h3{font-size:.85rem;margin:1.5rem 0 .6rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}
+.stat{background:var(--rosa);padding:.9rem 1rem;border-radius:6px}
+.stat small{display:block;font-size:.65rem;color:#6b4b50}
+.stat b{font-family:var(--serif);font-size:1.4rem}
+table{width:100%;border-collapse:collapse;font-size:.75rem;background:var(--rosa)}
+th{background:#2b1a30;color:#fff;padding:.5rem;text-align:center;font-family:var(--serif)}
+td{padding:.35rem .5rem;text-align:center;border:1px solid var(--rosa2)}
+.ok{background:#bfe3c4;border-radius:4px;padding:.1rem .5rem;color:#164a22}
+.barras{display:flex;align-items:flex-end;gap:1.5rem;height:170px;background:var(--rosa);padding:1rem 1.5rem 0;border-radius:6px}
+.barras div{flex:1;max-width:36px;background:#2b2a4a;border-radius:3px 3px 0 0;position:relative}
+.barras div.v{background:#8b1e2e}
+.barras div.r{background:#e8262e}
+.barras div i{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-style:normal;font-size:.6rem;color:#444}
+.barras{padding-bottom:1.6rem}
+.equipoAdmin{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem}
+.equipoAdmin .foto{height:140px;border-radius:10px;margin-bottom:.5rem}
+.equipoAdmin h3{margin:0;font-size:.8rem}
+.equipoAdmin p{font-size:.7rem;color:#5a3f45}
+@media(max-width:700px){#inicio nav ul li:not(:last-child){display:none}.equipo{flex-direction:column;align-items:flex-start}.equipo>h2{writing-mode:horizontal-tb;transform:none}.admin{grid-template-columns:1fr}.side{border-radius:0;flex-direction:row;flex-wrap:wrap}.side h3{width:100%;margin-bottom:.3rem}.side .salir{margin:0}}
+</style>
+</head>
+<body>
+
+<main id="inicio">
+  <nav>
+    <span class="logo">BarberPro</span>
+    <ul>
+      <li><a href="#inicio" data-ir="inicio">Inicio</a></li>
+      <li><a href="#inicio" data-ir="inicio">Servicios</a></li>
+      <li><a href="#inicio" data-ir="inicio">Equipo</a></li>
+      <li><a class="btn btn-secondary" href="{% url 'login' %}">Iniciar sesión</a></li>
+      <li><a class="btn" href="{% url 'registro' %}">Crear cuenta</a></li>
+    </ul>
+  </nav>
+  <header class="hero">
+    <h1>Bienvenidos a BarberPro</h1>
+    <p>Afeitado, recortes, diseño de barba y más. Reserva tu cita con los mejores barberos de la ciudad.</p>
+    <div class="acciones">
+      <a class="btn" href="{% url 'registro' %}">Crear cuenta para reservar</a>
+      <a class="btn borde" href="{% url 'login' %}">Iniciar sesión</a>
+    </div>
+  </header>
+  <section class="servicios">
+    <h2>Nuestros Servicios</h2>
+    <p>Cada servicio está pensado para que salgas con el mejor aspecto. Trabajamos con productos de calidad y barberos con años de experiencia en el oficio.</p>
+    <div class="tarjetas">
+      <div class="tarjeta foto"><span>Recorte de barba</span><a class="btn rojo" href="{% url 'registro' %}">Reservar</a></div>
+      <div class="tarjeta foto"><span>Corte</span><a class="btn rojo" href="{% url 'registro' %}">Reservar</a></div>
+      <div class="tarjeta foto"><span>Corte y barba</span><a class="btn rojo" href="{% url 'registro' %}">Reservar</a></div>
+    </div>
+    <a class="vermas" href="#inicio" data-ir="inicio">Ver más...</a>
+  </section>
+  <section class="equipo">
+    <h2>NUESTRO EQUIPO</h2>
+    <div class="miembros" id="miembros"></div>
+  </section>
+  <section class="horario">
+    <div class="mapa" role="img" aria-label="Mapa de la ubicación"></div>
+    <div>
+      <h2>Ven cuando quieras</h2>
+      <p>Durante el horario comercial.</p>
+      <p>Horario<br>Lunes a sábado<br>10:00 am - 8 pm<br>Domingo<br>11 am - 6 pm</p>
+    </div>
+  </section>
+  <footer class="contacto">
+    <h2>CONTACTO</h2>
+    <div class="columnas">
+      <div><b>Reach us</b>+57 300 000 0000<br>correo@barberpro.com<br>Calle 10 #45-12, Medellín</div>
+      <div><b>Company</b>Acerca<br>Contacto<br>Blog</div>
+      <div><b>Legal</b>Términos y condiciones<br>Privacidad<br>Cookies</div>
+      <div><b>Quick links</b>Servicios<br>Equipo<br>Reservar</div>
+    </div>
+  </footer>
+</main>
+
+<main id="dashboard" class="admin" hidden>
+  <aside class="side" data-activo="dashboard"></aside>
+  <section class="panel">
+    <h2>Resumen del Negocio</h2>
+    <div class="stats">
+      <div class="stat"><small>Citas de hoy</small><b>18</b></div>
+      <div class="stat"><small>Ingresos del día</small><b>$640.000</b></div>
+      <div class="stat"><small>Stock bajo</small><b>2 Prod.</b></div>
+    </div>
+    <h3>Próximas Citas de hoy</h3>
+    <table>
+      <thead><tr><th>Cliente</th><th>Servicio</th><th>Barbero</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td>Juan Pérez</td><td>Corte y barba</td><td>Miguel</td><td><span class="ok">Confirmada</span></td></tr>
+        <tr><td>Luis Gómez</td><td>Corte</td><td>Carlos</td><td><span class="ok">Confirmada</span></td></tr>
+        <tr><td>Andrés Ruiz</td><td>Recorte de barba</td><td>David</td><td><span class="ok">Confirmada</span></td></tr>
+      </tbody>
+    </table>
+    <h3>Rendimiento semanal (citas finalizadas)</h3>
+    <div class="barras" role="img" aria-label="Gráfico de barras por día">
+      <div style="height:45%"><i>Lun</i></div>
+      <div style="height:60%"><i>Mar</i></div>
+      <div class="v" style="height:75%"><i>Mié</i></div>
+      <div style="height:55%"><i>Jue</i></div>
+      <div class="r" style="height:95%"><i>Vie</i></div>
+    </div>
+  </section>
+</main>
+
+<main id="agenda" class="admin" hidden>
+  <aside class="side" data-activo="agenda"></aside>
+  <section class="panel">
+    <h2>Agenda</h2>
+    <table>
+      <thead><tr><th>#</th><th>Cliente</th><th>Servicios</th><th>Estado</th><th>Fecha</th></tr></thead>
+      <tbody id="filas"></tbody>
+    </table>
+  </section>
+</main>
+
+<main id="barberos" class="admin" hidden>
+  <aside class="side" data-activo="barberos"></aside>
+  <section class="panel">
+    <h2>Barberos</h2>
+    <div class="equipoAdmin" id="equipoAdmin"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var vistas = [
+    ['inicio', 'Inicio'], ['dashboard', 'Dashboard'], ['agenda', 'Agenda'], ['barberos', 'Barberos']
+  ];
+  var barberos = [
+    ['Miguel Rodríguez', 'Barbero Senior', '10 años de experiencia', 'Experto en estilo tradicional'],
+    ['Carlos Martínez', 'Maestro Barbero', '8 años de experiencia', 'Especialista en cortes clásicos'],
+    ['David Torres', 'Barbero', '5 años de experiencia', 'Especialista en diseño de barba'],
+    ['Mario Salazar', 'Barbero junior', '2 años de experiencia', 'Cortes modernos']
+  ];
+  var clientes = ['Carlos Moreno', 'Juan Pérez', 'Luis Gómez', 'Andrés Ruiz', 'Felipe Vargas', 'Camilo Díaz', 'Sergio Mora', 'Tomás Rojas', 'Mateo León', 'Iván Soto', 'Jorge Peña', 'Nicolás Cruz'];
+  var servicios = ['Recorte de barba', 'Corte', 'Corte y barba'];
+
+  function porId(id) { return document.getElementById(id); }
+
+  function mostrar(nombre) {
+    var existe = vistas.some(function (v) { return v[0] === nombre; });
+    if (!existe) { nombre = 'inicio'; }
+    vistas.forEach(function (v) {
+      var e = porId(v[0]);
+      if (e) { e.hidden = v[0] !== nombre; }
+    });
+    window.scrollTo(0, 0);
+  }
+
+  porId('miembros').innerHTML = barberos.map(function (b) {
+    return '<div class="miembro"><div class="foto"></div><h3>' + b[0] + '</h3><p>' + b[1] + '<br>' + b[2] + '<br>' + b[3] + '</p></div>';
+  }).join('');
+
+  porId('equipoAdmin').innerHTML = barberos.map(function (b) {
+    return '<div><div class="foto"></div><h3>' + b[0] + '</h3><p>' + b[1] + '<br>' + b[2] + '<br>' + b[3] + '</p></div>';
+  }).join('');
+
+  porId('filas').innerHTML = clientes.map(function (c, i) {
+    var dia = 22 - (i % 3);
+    var hora = 9 + (i % 8);
+    return '<tr><td>' + (i + 1) + '</td><td>' + c + '</td><td>' + servicios[i % 3] + '</td><td>Concluido</td><td>' + dia + '-05-2026 ' + (hora < 10 ? '0' : '') + hora + ':45</td></tr>';
+  }).join('');
+
+  var enlaces = [['dashboard', 'Dashboard'], ['agenda', 'Control citas'], ['barberos', 'Barberos']];
+  var loginUrl = "{% url 'login' %}";
+  document.querySelectorAll('.side').forEach(function (s) {
+    var activo = s.getAttribute('data-activo');
+    s.innerHTML = '<h3>Panel Admin</h3>' + enlaces.map(function (l) {
+      return '<a href="#' + l[0] + '" data-ir="' + l[0] + '"' + (l[0] === activo ? ' class="act"' : '') + '>' + l[1] + '</a>';
+    }).join('') + '<a class="salir" href="' + loginUrl + '">Salir</a>';
+  });
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-ir]');
+    if (!el) { return; }
+    e.preventDefault();
+    var destino = el.getAttribute('data-ir');
+    history.replaceState(null, '', '#' + destino);
+    mostrar(destino);
+  });
+
+  window.addEventListener('hashchange', function () { mostrar(location.hash.slice(1)); });
+  mostrar(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>

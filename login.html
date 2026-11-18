@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#24151f">
+    <title>Iniciar sesión · StyleSlot</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "DM Sans", "Segoe UI", sans-serif;
+            color: #24151f;
+            background: #f6f1f1;
+            font-synthesis: none;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            padding: 32px 20px;
+            background:
+                radial-gradient(ellipse at 18% 15%, rgba(169, 47, 73, .12), transparent 35%),
+                #f6f1f1;
+        }
+
+        .login-layout {
+            width: min(100%, 960px);
+            min-height: 580px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            border: 1px solid #eee5e6;
+            border-radius: 22px;
+            background: #fffafa;
+            box-shadow: 0 24px 70px rgba(43, 27, 33, .12);
+        }
+
+        .welcome-panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            padding: 42px;
+            color: white;
+            background: linear-gradient(145deg, #321d2b, #1d1319 82%);
+        }
+
+        .welcome-panel::after {
+            position: absolute;
+            right: -125px;
+            bottom: -180px;
+            width: 390px;
+            height: 390px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 50%;
+            box-shadow: 0 0 0 38px rgba(255, 255, 255, .025), 0 0 0 78px rgba(255, 255, 255, .025);
+            content: "";
+        }
+
+        .brand {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .28);
+            border-radius: 13px;
+            background: rgba(255, 255, 255, .08);
+            font-family: Georgia, serif;
+            font-size: 24px;
+        }
+
+        .brand-name { font-family: Georgia, serif; font-size: 21px; }
+        .brand-caption { display: block; margin-top: 3px; color: #c6b5bc; font-size: 11px; }
+
+        .welcome-copy {
+            position: relative;
+            z-index: 1;
+            max-width: 360px;
+            margin: auto 0;
+            padding: 56px 0;
+        }
+
+        .eyebrow {
+            color: #e7a9b5;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .welcome-copy h1 {
+            margin: 14px 0;
+            font-family: Georgia, serif;
+            font-size: clamp(32px, 4vw, 46px);
+            font-weight: 600;
+            line-height: 1.12;
+        }
+
+        .welcome-copy p {
+            max-width: 320px;
+            margin: 0;
+            color: #c6b5bc;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .panel-note {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            color: #a9949e;
+            font-size: 11px;
+        }
+
+        .form-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px;
+        }
+
+        .login-form { width: min(100%, 350px); }
+        .login-form h2 { margin: 0 0 8px; font-family: Georgia, serif; font-size: 29px; }
+        .intro { margin: 0 0 30px; color: #81777a; font-size: 13px; line-height: 1.6; }
+        .field { margin-bottom: 20px; }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #55484b;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .field input {
+            width: 100%;
+            min-height: 47px;
+            padding: 11px 13px;
+            border: 1px solid #ded3d5;
+            border-radius: 9px;
+            outline: none;
+            background: #fffdfd;
+            color: #24151f;
+            font: inherit;
+            font-size: 14px;
+            transition: border-color .18s, box-shadow .18s;
+        }
+
+        .field input:focus {
+            border-color: #a92f49;
+            box-shadow: 0 0 0 3px rgba(169, 47, 73, .1);
+        }
+
+        .field input[aria-invalid="true"] { border-color: #b9364b; }
+        .errorlist { margin: 7px 0 0; padding: 0; color: #a1263b; font-size: 12px; list-style: none; }
+
+        .form-error {
+            margin: 0 0 20px;
+            padding: 12px 14px;
+            border: 1px solid #f1c8ce;
+            border-radius: 9px;
+            background: #fff0f2;
+            color: #8c2636;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .submit-button {
+            width: 100%;
+            min-height: 48px;
+            margin-top: 4px;
+            border: 0;
+            border-radius: 9px;
+            background: #7d1f34;
+            box-shadow: 0 8px 18px rgba(125, 31, 52, .18);
+            color: white;
+            cursor: pointer;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background .18s, transform .18s;
+        }
+
+        .submit-button:hover { transform: translateY(-1px); background: #8f2940; }
+        .back-link { display: block; margin-top: 22px; color: #7d1f34; font-size: 12px; text-align: center; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+        .register-link { display: block; margin-top: 13px; color: #81777a; font-size: 12px; text-align: center; text-decoration: none; }
+        .register-link strong { color: #7d1f34; }
+        .notice { margin-bottom: 16px; padding: 11px 13px; border-radius: 8px; background: #edf7f1; color: #1d5b3b; font-size: 12px; }
+
+        @media (max-width: 680px) {
+            body { padding: 16px; }
+            .login-layout { min-height: 0; grid-template-columns: 1fr; }
+            .welcome-panel { min-height: 190px; padding: 24px; }
+            .welcome-copy { padding: 30px 0 0; }
+            .welcome-copy h1 { margin: 9px 0 5px; font-size: 29px; }
+            .welcome-copy p, .panel-note { display: none; }
+            .form-panel { padding: 34px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="login-layout">
+        <section class="welcome-panel" aria-label="Bienvenida a StyleSlot">
+            <a class="brand" href="{% url 'inicio' %}">
+                <span class="brand-mark" aria-hidden="true">S</span>
+                <span><span class="brand-name">StyleSlot</span><span class="brand-caption">Sistema de gestión</span></span>
+            </a>
+            <div class="welcome-copy">
+                <span class="eyebrow">Tu negocio, en orden</span>
+                <h1>Todo empieza con una buena sesión.</h1>
+                <p>Ingresa a tu espacio de trabajo para gestionar citas, clientes y servicios.</p>
+            </div>
+            <p class="panel-note">StyleSlot · Colombia</p>
+        </section>
+
+        <section class="form-panel" aria-labelledby="login-title">
+            <form class="login-form" method="post">
+                {% csrf_token %}
+                <h2 id="login-title">Iniciar sesión</h2>
+                <p class="intro">Escribe tus credenciales para continuar al panel de gestión.</p>
+
+                {% if messages %}
+                    {% for message in messages %}<div class="notice" role="status">{{ message }}</div>{% endfor %}
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-error" role="alert">{{ form.non_field_errors }}</div>
+                {% endif %}
+
+                <div class="field">
+                    <label for="{{ form.username.id_for_label }}">Usuario</label>
+                    <input
+                        type="text"
+                        name="{{ form.username.html_name }}"
+                        id="{{ form.username.id_for_label }}"
+                        value="{{ form.username.value|default_if_none:'' }}"
+                        autocomplete="username"
+                        required
+                        autofocus
+                        {% if form.username.errors %}aria-invalid="true" aria-describedby="username-errors"{% endif %}
+                    >
+                    {% if form.username.errors %}
+                        <div id="username-errors">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                    <input
+                        type="password"
+                        name="{{ form.password.html_name }}"
+                        id="{{ form.password.id_for_label }}"
+                        autocomplete="current-password"
+                        required
+                        {% if form.password.errors %}aria-invalid="true" aria-describedby="password-errors"{% endif %}
+                    >
+                    {% if form.password.errors %}
+                        <div id="password-errors">{{ form.password.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <input type="hidden" name="next" value="{{ next }}">
+                <button class="submit-button" type="submit">Entrar al panel</button>
+                <a class="back-link" href="{% url 'inicio' %}">Volver al inicio</a>
+                <a class="register-link" href="{% url 'registro' %}">¿No tienes cuenta? <strong>Regístrate</strong></a>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
