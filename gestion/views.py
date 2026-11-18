@@ -3,6 +3,8 @@ from datetime import date, datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import ProtectedError
 from django.forms import Select
 from django.shortcuts import redirect, render
@@ -26,6 +28,7 @@ def nombre(modelo):
     return modelo._meta.model_name
 
 
+@login_required(login_url='login_publico')
 def inicio(request):
     enlaces = [
         (m._meta.verbose_name_plural.capitalize(), f'{nombre(m)}_list')
@@ -40,7 +43,8 @@ def inicio(request):
     })
 
 
-class ListaBase(ListView):
+class ListaBase(LoginRequiredMixin, ListView):
+    login_url = 'login_publico'
     template_name = 'gestion/listar.html'
     paginate_by = 15
 
@@ -74,7 +78,8 @@ class ListaBase(ListView):
         return contexto
 
 
-class FormularioBase:
+class FormularioBase(LoginRequiredMixin):
+    login_url = 'login_publico'
     template_name = 'gestion/formulario.html'
     fields = '__all__'
 
@@ -99,7 +104,8 @@ class FormularioBase:
         return super().form_valid(form)
 
 
-class EliminarBase(DeleteView):
+class EliminarBase(LoginRequiredMixin, DeleteView):
+    login_url = 'login_publico'
     template_name = 'gestion/eliminar.html'
 
     def get_success_url(self):
@@ -136,7 +142,7 @@ def cerrar_sesion(request):
 
 def login_publico(request):
     if request.user.is_authenticated:
-        return redirect('/barberpro/#dashboard')
+        return redirect('inicio')
 
     if request.method == 'POST':
         identificador = request.POST.get('usuario', '').strip()
@@ -150,7 +156,10 @@ def login_publico(request):
 
         if usuario is not None:
             login(request, usuario)
-            return redirect('/barberpro/#dashboard')
+            destino = request.POST.get('next') or request.GET.get('next')
+            if destino and destino.startswith('/') and not destino.startswith('//'):
+                return redirect(destino)
+            return redirect('inicio')
 
         return render(request, 'gestion/login.html', {
             'error_login': 'Usuario o contraseña incorrectos.',

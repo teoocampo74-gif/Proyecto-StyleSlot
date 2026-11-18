@@ -12,12 +12,13 @@
 </head>
 <body>
   <main class="card">
-    <h1>Iniciar sesión</h1>
+    <h1>Acceso al sistema de gestión</h1>
     {% if error_login %}<div class="error">{{ error_login }}</div>{% endif %}
     <form method="post">
       {% csrf_token %}
       <div class="field"><label for="usuario">Usuario o correo electrónico</label><input id="usuario" name="usuario" type="text" autocomplete="username" required></div>
       <div class="field"><label for="password">Contraseña</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+      <input type="hidden" name="next" value="{{ request.GET.next|default:'' }}">
       <button class="btn" type="submit">Entrar</button>
     </form>
     <div class="links"><a href="{% url 'barberpro' %}">← Volver al sitio</a><a href="{% url 'admin:login' %}">Administración</a></div>
